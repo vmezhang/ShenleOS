@@ -1,0 +1,41 @@
+/*
+ * =====================================================================================
+ *
+ *       Filename:  idt.h
+ *
+ *    Description:  定义中断描述符表
+ *
+ *        Version:  1.0
+ *        Created:  2013年10月28日 17时31分56秒
+ *       Revision:  none
+ *       Compiler:  gcc
+ *
+ *         Author:  zhangrui, v.mezhang@gmail.com
+ *        Company:  Class 1107 of Computer Science and Technology
+ *
+ * =====================================================================================
+ */
+
+#ifndef INCLUDE_IDT_H_
+#define INCLUDE_IDT_H_
+
+#include "types.h"
+
+//初始化中断描述符表
+void init_idt();
+
+//中断描述符
+typedef struct idt_entry_t {
+	uint16_t base_lo; 	//中断处理还书地址 15~0
+	uint16_t sel; 		//目标代码段描述符选择子
+	uint8_t always0; 	//置0段
+	uint8_t flags; 		//标志
+	uint16_t base_hi; 	//中断处理函数地址31~16
+} __attribute__((packed)) idt_entry_t;
+
+//IDTR
+typedef struct idt_ptr_t {
+	uint16_t limit; 	//限长
+	uint32_t base; 		//基址
+} __attribute__((packed)) idt_ptr_t;
+
