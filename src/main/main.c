@@ -17,13 +17,22 @@
  */
 
 #include "multiboot.h"
-#include "printk.h"
+#include "gdt.h"
+#include "idt.h"
+#include "monitor.h"
 
 int main(multiboot_t *mboot_ptr)
 {
 	// all our initialisation calls whill go in here.
+	// 初始化全局段描述符表
+	init_gdt();
+	// 初始化全局中断描述符表
+	init_idt();
 	monitor_clear();
 	monitor_write_color("Hello ShenleOS!\n", rc_black, rc_green);
+	/***************************************************/
+	asm volatile("int $0x3");
+	asm volatile("int $0x4");
 
 	return 0xDEADBABA;
 }

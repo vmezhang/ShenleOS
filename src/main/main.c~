@@ -17,13 +17,24 @@
  */
 
 #include "multiboot.h"
-#include "printk.h"
+#include "gdt.h"
+#include "idt.h"
+#include "monitor.h"
 
 int main(multiboot_t *mboot_ptr)
 {
+	// 从 GRUB 提供的信息中获取到内核符号表和代码地址信息
+	kernel_elf = elf_from_multiboot(mboot_ptr);
 	// all our initialisation calls whill go in here.
+	// 初始化全局段描述符表
+	init_gdt();
+	// 初始化全局中断描述符表
+	init_idt();
 	monitor_clear();
-	monitor_write_color("Hello ShenleOS\n!", rc_black, rc_green);
+	monitor_write_color("Hello ShenleOS!\n", rc_black, rc_green);
+	/***************************************************/
+	asm volatile("int $0x3");
+	asm volatile("int $0x4");
 
 	return 0xDEADBABA;
 }

@@ -5,7 +5,13 @@ idt_flush:
 	mov eax, [esp+4] 	; 参数存入eax寄存器
 	lidt [eax] 		; 加载到IDTR
 	ret
-.end:
+
+[GLOBAL isr0]
+isr0:
+	cli
+	push byte 0
+	push byte 0
+	jmp isr_common_stub
 
 ; 定义两个构造中断处理函数宏
 ; 用于没有错误代码的中断
@@ -19,7 +25,7 @@ isr%1:
 %endmacro
 
 ; 用于有错误代码的中断
-%macro ISR_ERRCODE 1
+%macro ISR_NOERRCODE 1
 [GLOBAL isr%1]
 isr%1:
 	cli 			; 关闭中断
@@ -66,7 +72,7 @@ ISR_NOERRCODE 31
 ISR_NOERRCODE 255
 
 [GLOBAL isr_common_stub]
-[EXTERN isr_handler]
+[EXTERN idt_handler]
 ; 中断服务程序
 isr_common_stub:
 	pusha                    ; Pushes edi, esi, ebp, esp, ebx, edx, ecx, eax
@@ -81,7 +87,7 @@ isr_common_stub:
 	mov ss, ax
 	
 	push esp		; 此时的 esp 寄存器的值等价于 pt_regs 结构体的指针
-	call isr_handler        ; 在 C 语言代码里
+	call idt_handler        ; 在 C 语言代码里
 	add esp, 4 		; 清除压入的参数
 	
 	pop ebx                 ; 恢复原来的数据段描述符
