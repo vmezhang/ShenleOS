@@ -20,6 +20,7 @@
 #include "gdt.h"
 #include "idt.h"
 #include "monitor.h"
+#include "timer.h"
 
 int main(multiboot_t *mboot_ptr)
 {
@@ -28,13 +29,20 @@ int main(multiboot_t *mboot_ptr)
 	init_gdt();
 	// 初始化全局中断描述符表
 	init_idt();
-	monitor_clear();
-	monitor_write_color("Hello ShenleOS!\n", rc_black, rc_green);
-	/***************************************************/
-	asm volatile("int $0x3");
-	asm volatile("int $0x4");
 
-	return 0xDEADBABA;
+	monitor_clear();
+	printk_color(rc_black, rc_red, "Hello ShenleOS!\n");
+	printk_color(rc_black, rc_green, "This is a simple OS kernel, just for study.\nYou can copy it freely!\n\n");
+	/***************************************************/
+	// 初始化时钟中断
+	init_timer(20);
+	
+	// 解除对 INTR 中断的屏蔽
+	asm volatile("sti");
+	//asm volatile("int $0x3");
+	//asm volatile("int $0x4");
+
+	return 0;
 }
 
 

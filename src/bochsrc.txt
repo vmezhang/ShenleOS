@@ -23,7 +23,7 @@ boot: a
 boot: floppy
 
 # 鼠标 不启用
-#mouse: enabled=0
+mouse: enabled=0
 
 # 键盘 启用 US 键盘映射
 keyboard_mapping: enabled=1, map="$BXSHARE/keymaps/x11-pc-us.map"

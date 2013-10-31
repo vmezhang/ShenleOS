@@ -1,0 +1,56 @@
+;
+; boot.s -- Kernel start location. Also define multiboot header.
+;
+
+MBOOT_HEADER_MAGIC 	equ 	0x1BADB002 	; Multiboot 魔数，由规范决定的
+
+MBOOT_PAGE_ALIGN 	equ 	1 << 0    	; 0 号位表示所有的引导模块将按页(4KB)边界对齐
+MBOOT_MEM_INFO 		equ 	1 << 1    	; 1 号位通过 Multiboot 信息结构的 mem_* 域包括可用内存的信息(一般的ELF映像这样就可以)
+MBOOT_AOUT_KLUDGE 	equ 	1 << 16
+
+; 注意，我们并没有加上第16位(MBOOT_AOUT_KLUDGE)，这意味着 GRUB 不会使用我们的符号表
+MBOOT_HEADER_FLAGS 	equ 	MBOOT_PAGE_ALIGN | MBOOT_MEM_INFO
+
+; 域checksum是一个32位的无符号值，当与其他的magic域(也就是magic和flags)相加时，
+; 结果必须是32位的无符号值0(即magic + flags + checksum = 0)
+MBOOT_CHECKSUM 		equ 	- (MBOOT_HEADER_MAGIC + MBOOT_HEADER_FLAGS)
+
+; 符合Multiboot规范的 OS 映象需要这样一个 magic Multiboot 头
+
+
+
+[BITS 32] 		;ALl instructions should be 32-bit.
+
+section .text
+
+; 声明一些符号
+[GLOBAL mboot] 		;Make 'mboot' accessible from o;
+[EXTERN _code] 		;Start of the '.text' section.
+[EXTERN _bss] 		;Start of the .bss section.
+[EXTERN _end] 		;End of the last loadable section
+
+mboot:
+	dd MBOOT_HEADER_MAGIC 	;GRUB will search for this value on each
+	
+	dd MBOOT_HEADER_FLAGS 	;4-byte boundary in your kernel file
+	dd MBOOT_CHECKSUM 	;To ensure that the above values are corret
+
+
+[GLOBAL start] 			;Kernel entry point.
+[EXTERN main]  			;This is the entry point of our C code
+
+start:
+	cli  		; 我们关闭中断，然后启动内核
+	mov esp, stack  ; 设置栈地址
+	push ebx 	; 调用内核 main 函数的参数，struct multiboot *mboot_ptr
+	mov ebp, 0
+
+	call main		;call out main() function.
+	jmp $ 			;Enter an infinite loop, to stop the processor
+				;executing whatever rubbish is in the memory
+				;after our kernel!
+.end:
+
+section .bss
+    resb 32768
+stack:

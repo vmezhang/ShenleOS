@@ -1,4 +1,5 @@
 ; 将GDT地址载入GDTR
+; hurley 2013/7/26
 
 [GLOBAL gdt_flush]
 
