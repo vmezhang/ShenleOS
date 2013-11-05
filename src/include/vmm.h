@@ -1,0 +1,72 @@
+/*
+ * =====================================================================================
+ *
+ *       Filename:  vmm.h
+ *
+ *    Description:  虚拟内存管理
+ *
+ *        Version:  1.0
+ *        Created:  2013年11月05日 20时59分22秒
+ *       Revision:  none
+ *       Compiler:  gcc
+ *
+ *         Author:  zhangrui, v.mezhang@gmail.com
+ *        Company:  Class 1107 of Computer Science and Technology
+ *
+ * =====================================================================================
+ */
+
+#ifndef INCLUDE_VMM_H
+#ifndef INCLUDE_VMM_H
+
+#include "types.h"
+#include "idt.h"
+
+// 页目录虚拟地址
+#define PAGE_DIR_VIRTURE_ADDR 		0xFFBFF000
+
+// 页表虚拟地址
+#define PAGE_TABLE_VIRTURE_ADDR 	0xFFC00000
+
+// 这两个宏用于页表和页目录的索引获取
+#define PAGE_DIR_IDX(x) 		((uint32_t)x / 1024)
+#define PAGE_TABLE_IDX(x) 		((uint32_t)x % 1024)
+
+// 用于指明表项对地址转换是否有效 1为有效，0为无效
+// 若也目录或页表项表示无效，则会导致一个异常
+#define PAGE_PRESENT 			0x1
+
+// 用于读写标志，1表示可r/w/x，0表示只r/x（当处理器运行在超级权限时此标志不起作用）
+#define PAGE_WRITE 			0x2
+
+// 用于标志普通用户/超级用户
+// 1表示任何权限的程序均可访问该页面
+// 0表示只有被运行在特权级别在0，1，2上的程序访问
+#define PAGE_USER 			0x4
+
+// 页掩码 用于4kb对齐
+#define PAGE_MASK 			0xFFFFF000
+
+//页目录数据类i小那个
+typedef uint32_t page_directory_t;
+
+// 初始化虚拟内存管理
+void init_vmm();
+
+// 更换当前的页目录
+void switch_page_directory(page_directory_t *pd);
+
+// 使用flags指出的页权限，把物理地址pa映射到虚拟地址va上
+void map(uint32_t va, uint32_t pa, uint32_t flags);
+
+// 取消虚拟地址va的物理映射
+void unmap(uint32_t va);
+
+// 若虚拟地址va映射到物理地址则返回1
+// 若pa不是NULL则把物理地址写入pa参数
+char get_mapping(uint32_t va, uint32_t *pa);
+
+// 页错误中断处理
+void page_fault(pt_regs *regs);
+
+#endif
