@@ -10,7 +10,7 @@
  *       Revision:  none
  *       Compiler:  gcc
  *
- *         Author:  Hurley (LiuHuan), liuhuan1992@gmail.com
+ *         Author:  zhangrui, v.mezhang@gmail.com
  *        Company:  Class 1107 of Computer Science and Technology
  *
  * =====================================================================================
@@ -30,6 +30,11 @@ inline void memset(uint8_t *dest, uint8_t val, uint32_t len)
 	for ( ; len != 0; len--) {
 		*dest++ = val;
 	}
+}
+
+inline void bzero(void *dest, uint32_t len)
+{
+	memset(dest, 0, len);
 }
 
 inline int strcmp(const char *str1, const char *str2)

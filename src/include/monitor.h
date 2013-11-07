@@ -6,11 +6,11 @@
  *    Description:  屏幕操作的相关函数的头文件
  *
  *        Version:  1.0
- *        Created:  2013年07月24日 20时53分58秒
+ *        Created:  2013年10月18日 20时53分58秒
  *       Revision:  none
  *       Compiler:  gcc
  *
- *         Author:  Hurley (LiuHuan), liuhuan1992@gmail.com
+ *         Author:  zhangrui, v.mezhang@gmail.com
  *        Company:  Class 1107 of Computer Science and Technology
  *
  * =====================================================================================

@@ -6,11 +6,11 @@
  *    Description:  一些类型的定义
  *
  *        Version:  1.0
- *        Created:  2013年07月24日 20时07分26秒
+ *        Created:  2013年10月14日 20时07分26秒
  *       Revision:  none
  *       Compiler:  gcc
  *
- *         Author:  Hurley (LiuHuan), liuhuan1992@gmail.com
+ *         Author:  zhangrui, v.mezhang@gmail.com
  *        Company:  Class 1107 of Computer Science and Technology
  *
  * =====================================================================================

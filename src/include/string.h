@@ -6,11 +6,11 @@
  *    Description:  字符串处理函数
  *
  *        Version:  1.0
- *        Created:  2013年07月26日 20时12分44秒
+ *        Created:  2013年10月16日 20时12分44秒
  *       Revision:  none
  *       Compiler:  gcc
  *
- *         Author:  Hurley (LiuHuan), liuhuan1992@gmail.com
+ *         Author:  zhangrui, v.mezhang@gmail.com
  *        Company:  Class 1107 of Computer Science and Technology
  *
  * =====================================================================================
