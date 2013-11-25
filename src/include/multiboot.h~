@@ -6,11 +6,11 @@
  *    Description:  Multiboot 结构的定义
  *
  *        Version:  1.0
- *        Created:  2013年07月24日 20时08分01秒
+ *        Created:  2013年10月13日 20时08分01秒
  *       Revision:  none
  *       Compiler:  gcc
  *
- *         Author:  Hurley (LiuHuan), liuhuan1992@gmail.com
+ *         Author: zhangrui, v.mezhang@gmail.com
  *        Company:  Class 1107 of Computer Science and Technology
  *
  * =====================================================================================

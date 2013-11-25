@@ -20,12 +20,10 @@
 #include "debug.h"
 #include "mm.h"
 
-//#define SHOW_MEM_MAP
-
 // 当前申请到的位置
 uint32_t pmm_stack_loc = PMM_STACK_ADDR;
 
-// 内存申请的界限位置
+// 内存申请的界面位置
 uint32_t pmm_stack_max = PMM_STACK_ADDR;
 
 // 没有开启分页机制时的内存管理方案采用的管理指针
@@ -37,29 +35,25 @@ char mm_paging_active = 0;
 void init_pmm(multiboot_t *mboot_ptr)
 {
 #ifdef SHOW_MEM_MAP
-	// 打印 GRUB 提供的 由 BIOS 的反馈内存布局
+	// 打印GRUB提供的 由BIOS反馈的内存布局
 	printk("mem_lower: 0x%X\n", mboot_ptr->mem_lower * 1024);
 	printk("mem_upper: 0x%X\n\n", mboot_ptr->mem_upper * 1024);
 
 	mmap_entry_t *mmap;
 	printk("mmap_addr = 0x%X, mmap_length = 0x%X\n\n", (unsigned)mboot_ptr->mmap_addr, (unsigned)mboot_ptr->mmap_length);
-	for (mmap = (mmap_entry_t *) mboot_ptr->mmap_addr;
-		(unsigned long) mmap < mboot_ptr->mmap_addr + mboot_ptr->mmap_length; 
-		mmap = (mmap_entry_t *)((unsigned long)mmap + mmap->size + sizeof(mmap->size))) {
-	      printk("  size = 0x%X, base_addr = 0x%X%X,"
-				      " length = 0x%X%X, type = 0x%X\n",
-				      (unsigned)mmap->size,
-				      (unsigned)mmap->base_addr_high,
-				      (unsigned)mmap->base_addr_low,
-				      (unsigned)mmap->length_high,
-				      (unsigned)mmap->length_low,
-				      (unsigned)mmap->type);
+	for (mmap = (mmap_entry_t *)mboot_ptr->mmap_addr; (unsigned long)mmap < mboot_ptr->mmap_addr + mboot_ptr->mmap_length; mmap = (mmap_entry_t *)((unsigned long)mmap + mmap->size + sizeof(mmap->size))) {
+		printk(" size = 0x%X, base_addr = 0x%X%X, length = 0x%X%X, type = 0x%X\n",
+					(unsigned)mmap->size,
+					(unsigned)mmap->base_addr_high,
+					(unsigned)mmap->base_addr_low,
+					(unsigned)mmap->length_high,
+					(unsigned)mmap->length_low,
+					(unsigned)mmap->type);
+		printk("\n");
 	}
-	printk("\n");
 #endif
-
-	// 简单起见，内存 0～640 KB 是空闲的
-	// 我们直接把原始的物理内存页管理起始地址设为 0
+	// 内存0 ~ 640kb为空闲的
+	// 直接把原始的物理内存页管理起始地址设为0
 	pmm_location = 0;
 }
 
@@ -133,4 +127,3 @@ void pmm_free_page(uint32_t p)
 		pmm_stack_loc += sizeof(uint32_t);
 	}
 }
-

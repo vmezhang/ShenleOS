@@ -59,4 +59,15 @@ typedef struct multiboot_t {
 	uint32_t vbe_interface_len;
 } __attribute__((packed)) multiboot_t;
 
+typedef
+struct mmap_entry_t {
+	uint32_t size; 		// 留意 size 是不含 size 自身变量的大小
+	uint32_t base_addr_low;
+	uint32_t base_addr_high;
+	uint32_t length_low;
+	uint32_t length_high;
+	uint32_t type;
+} __attribute__((packed)) mmap_entry_t;
+
+
 #endif 	// INCLUDE_MULTIBOOT_H_

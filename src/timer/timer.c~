@@ -19,7 +19,7 @@
 #include "timer.h"
 #include "common.h"
 #include "idt.h"
-#include "monitor.h"
+#include "printk.h"
 
 void timer_callback(pt_regs *regs)
 {

@@ -143,7 +143,7 @@ void unmap(uint32_t va)
 	asm volatile ("invlpg (%0)" : : "a" (va));
 }
 
-uint8_t get_mapping(uint32_t va, uint32_t *pa)
+char get_mapping(uint32_t va, uint32_t *pa)
 {
 	uint32_t virtual_page = va / 0x1000;
 	uint32_t pt_idx = PAGE_DIR_IDX(virtual_page);

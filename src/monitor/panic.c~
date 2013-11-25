@@ -30,8 +30,8 @@ void panic(const char *msg)
 	printk("*** System panic: %s\n", msg);
 	print_stack_trace();
 	printk("***\n");
-	
-	// 致命错误发生后打印栈信息后停止在这里
+
+	// 发生致命错误后,打印完栈信息便停在此处
 	while(1);
 }
 
@@ -39,10 +39,10 @@ void print_stack_trace()
 {
 	uint32_t *ebp, *eip;
 
-	asm volatile ("mov %%ebp, %0" : "=r" (ebp));
+	asm volatile("mov %%ebp, %0" : "=r" (ebp));
 	while (ebp) {
 		eip = ebp + 1;
-		printk("   [0x%x] %s\n", *eip, elf_lookup_symbol(*eip, &kernel_elf));
-		ebp = (uint32_t*)*ebp;
+		printk(" [0x%x] %s\n", *eip, elf_lookup_symbol(*eip, &kernel_elf));
+		ebp = (uint32_t *)*ebp;
 	}
 }

@@ -1,4 +1,4 @@
-file hx_kernel
+file kernel
 target remote :1234
-break hx_main
+break main
 c

@@ -20,6 +20,7 @@
 #include "common.h"
 #include "idt.h"
 #include "printk.h"
+#include "debug.h"
 
 void timer_callback(pt_regs *regs)
 {

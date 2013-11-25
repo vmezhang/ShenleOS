@@ -69,3 +69,6 @@ debug:
 	gnome-terminal -e "bochs -f bochsrc.txt"
 	sleep 1
 	cgdb -x gdbinit
+.PHONY:run
+run:
+	bochs -f bochsrc2.txt

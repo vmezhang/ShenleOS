@@ -19,6 +19,7 @@
 #include "common.h"
 #include "string.h"
 #include "printk.h"
+#include "debug.h"
 #include "idt.h"
 
 //中断描述符表

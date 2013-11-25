@@ -30,7 +30,7 @@ dd MBOOT_HEADER_FLAGS   ; GRUB 的一些加载时选项，其详细注释在定�
 dd MBOOT_CHECKSUM       ; 检测数值，其含义在定义处
 
 [GLOBAL start] 		; 内核代码入口，此处提供该声明给 ld 链接器
-[EXTERN main] 	; 声明内核 C 代码的入口函数
+[EXTERN sl_main] 	; 声明内核 C 代码的入口函数
 
 start:
 	cli  		; 此时还没有设置好保护模式的中断处理，所以必须关闭中断
@@ -38,7 +38,7 @@ start:
 	push ebx 	; 调用内核 main 函数的参数，struct multiboot *mboot_ptr
 	mov ebp, 0 	; 帧指针修改为 0
     
-	call main 	; 调用内核入口函数
+	call sl_main 	; 调用内核入口函数
 
 stop:
 	hlt 		; 停机指令，什么也不做，可以降低 CPU 功耗

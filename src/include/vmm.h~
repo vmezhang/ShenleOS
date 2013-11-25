@@ -64,7 +64,7 @@ void unmap(uint32_t va);
 
 // 若虚拟地址va映射到物理地址则返回1
 // 若pa不是NULL则把物理地址写入pa参数
-uint8_t get_mapping(uint32_t va, uint32_t *pa);
+char get_mapping(uint32_t va, uint32_t *pa);
 
 // 页错误中断处理
 void page_fault(pt_regs *regs);

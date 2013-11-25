@@ -25,10 +25,12 @@ inline void memcpy(uint8_t *dest, const uint8_t *src, uint32_t len)
 	}
 }
 
-inline void memset(uint8_t *dest, uint8_t val, uint32_t len)
+inline void memset(void *dest, uint8_t val, uint32_t len)
 {
+	uint8_t *dst = (uint8_t *)dest;
+
 	for ( ; len != 0; len--) {
-		*dest++ = val;
+		*dst++ = val;
 	}
 }
 
@@ -84,7 +86,7 @@ inline int strlen(const char *src)
 {
 	const char *eos = src;
 
-        while(*eos++)
+        while (*eos++)
 	      ;
 	        
 	return (eos - src - 1);
