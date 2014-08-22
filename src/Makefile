@@ -8,6 +8,7 @@
 # --------------------------------------------------------
 #
 
+# shell函数调用os中的命令
 # patsubst 处理所有在 C_SOURCES 字列中的字（一列文件名），如果它的 结尾是 '.c'，就用 '.o' 把 '.c' 取代
 C_SOURCES = $(shell find . -name "*.c")
 C_OBJECTS = $(patsubst %.c, %.o, $(C_SOURCES))
@@ -24,7 +25,10 @@ ASM_FLAGS = -f elf -g
 
 all: $(S_OBJECTS) $(C_OBJECTS) link update_image
 
-# The automatic variable `$<' is just the first prerequisite
+# .c.o即后缀规则也可用%o:%c代替
+# 使用@不显示以下执行的命令，使用echo之后的内容代替
+# $<与$@为自动化变量
+# $<为所有的目标文件集,$@为所有依赖目标文件集用于匹配目标中模式定义的集合
 .c.o:
 	@echo 编译代码文件 $< ...
 	$(CC) $(C_FLAGS) $< -o $@
@@ -37,6 +41,7 @@ link:
 	@echo 链接内核文件...
 	$(LD) $(LD_FLAGS) $(S_OBJECTS) $(C_OBJECTS) -o kernel
 
+# .PHONY之后是伪目标make时不执行
 .PHONY:clean
 clean:
 	$(RM) $(S_OBJECTS) $(C_OBJECTS) kernel
